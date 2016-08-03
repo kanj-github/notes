@@ -19,7 +19,7 @@
         android:orientation="vertical"
         android:layout_above="@id/button"
         android:layout_alignParentTop="true"
-        android:padding="15dp">
+        android:padding="10dp">
         <EditText
             android:id="@+id/et_title"
             android:layout_width="match_parent"
@@ -41,7 +41,7 @@
         android:layout_above="@id/button"
         android:layout_alignParentTop="true"
         android:padding="15dp">
-        <TextView
+        <!--<TextView
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,13 +50,14 @@
             android:textIsSelectable="true"
             android:textStyle="bold"
             android:textSize="17sp"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp"/>-->
         <TextView
             android:id="@+id/tv_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textIsSelectable="true"
-            android:textSize="14sp"/>
+            android:textSize="18sp"
+            android:textColor="@android:color/black"/>
     </LinearLayout>
 
 </RelativeLayout>

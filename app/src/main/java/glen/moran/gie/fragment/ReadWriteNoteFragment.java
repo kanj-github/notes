@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 
 import glen.moran.gie.R;
+import glen.moran.gie.activity.ReadWriteNoteActivity;
 import glen.moran.gie.db.DbManager;
 import glen.moran.gie.file.ReadNoteFileTask;
 import glen.moran.gie.util.ProgressIndicator;
@@ -43,10 +44,11 @@ public class ReadWriteNoteFragment extends Fragment {
     private boolean doesExist;
     private LinearLayout readLayout, writeLayout;
     private EditText etTitle, etText;
-    private TextView tvTitle, tvText;
+    private TextView tvText;
     private Button button;
     private boolean isEditing;
     private ReadNoteFileTask readNoteFileTask;
+    private ReadWriteNoteActivity mActivity;
 
     public ReadWriteNoteFragment() {
         // Required empty public constructor
@@ -80,6 +82,14 @@ public class ReadWriteNoteFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof ReadWriteNoteActivity) {
+            mActivity = (ReadWriteNoteActivity) context;
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_read_write_note, container, false);
@@ -89,7 +99,6 @@ public class ReadWriteNoteFragment extends Fragment {
         button = (Button) v.findViewById(R.id.button);
         etTitle = (EditText) v.findViewById(R.id.et_title);
         etText = (EditText) v.findViewById(R.id.et_text);
-        tvTitle = (TextView) v.findViewById(R.id.tv_title);
         tvText = (TextView) v.findViewById(R.id.tv_text);
 
         if (isEditing) {
@@ -101,13 +110,16 @@ public class ReadWriteNoteFragment extends Fragment {
                 // This should happen only when new note is opened
                 Log.w("Kanj", "no saved bundle but isEditing true in onCreateView");
             }
-            button.setText("save");
+            button.setText(R.string.save);
+            if (mActivity != null) {
+                mActivity.getSupportActionBar().setTitle(R.string.edit);
+            }
         } else {
             writeLayout.setVisibility(View.GONE);
-            tvTitle.setText(noteTitle);
             readNoteFileTask = new ReadNoteFileTask(getContext(), tvText);
             readNoteFileTask.execute(noteId);
-            button.setText("edit");
+            button.setText(R.string.edit);
+            mActivity.getSupportActionBar().setTitle(noteTitle);
         }
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -174,12 +186,13 @@ public class ReadWriteNoteFragment extends Fragment {
         } else {
             // Begin editing
             isEditing = true;
-            button.setText("save");
+            button.setText(R.string.save);
             String text = tvText.getText().toString();
             readLayout.setVisibility(View.GONE);
             writeLayout.setVisibility(View.VISIBLE);
             etTitle.setText(noteTitle);
             etText.setText(text);
+            mActivity.getSupportActionBar().setTitle(R.string.edit);
         }
     }
 
@@ -188,18 +201,18 @@ public class ReadWriteNoteFragment extends Fragment {
             @Override
             public void run() {
                 isEditing = false;
-                button.setText("edit");
+                button.setText(R.string.edit);
                 String text = etText.getText().toString();
                 readLayout.setVisibility(View.VISIBLE);
                 writeLayout.setVisibility(View.GONE);
-                tvTitle.setText(noteTitle);
                 tvText.setText(text);
+                mActivity.getSupportActionBar().setTitle(noteTitle);
                 ProgressIndicator.hideProgressBar();
                 String msg;
                 if (status) {
-                    msg = "Saved";
+                    msg = getString(R.string.saved);
                 } else {
-                    msg = "Error occured";
+                    msg = getString(R.string.err);
                 }
                 Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
             }

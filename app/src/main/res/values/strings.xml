@@ -6,4 +6,7 @@
     <string name="title">Title</string>
     <string name="text">Text</string>
     <string name="saving">Saving&#8230;</string>
+    <string name="edit">Edit</string>
+    <string name="save">save</string>
+    <string name="saved">Saved</string>
 </resources>

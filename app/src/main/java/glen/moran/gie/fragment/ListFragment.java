@@ -9,12 +9,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -95,7 +93,6 @@ public class ListFragment extends Fragment implements NotesListAdapter.OnNoteSel
     @Override
     public void onNoteSelected(long noteId, String title) {
         needReload = true;
-        Log.v("Kanj", "Clicked- " + noteId);
         Intent i = new Intent(getContext(), ReadWriteNoteActivity.class);
         i.putExtra(ReadWriteNoteActivity.EXTRA_DOES_EXIST, true);
         i.putExtra(ReadWriteNoteActivity.EXTRA_NOTE_ID, noteId);
@@ -121,7 +118,6 @@ public class ListFragment extends Fragment implements NotesListAdapter.OnNoteSel
             if (c == null) {
                 return null;
             } else {
-                Log.v("Kanj", "Cursor has " + c.getCount() + " items");
                 notes = new ArrayList<>();
                 c.moveToPosition(-1);
                 while (c.moveToNext()) {
@@ -139,7 +135,6 @@ public class ListFragment extends Fragment implements NotesListAdapter.OnNoteSel
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Log.v("Kanj", "Displaying " + notes.size() + " items");
             RecyclerView listView = listViewReference.get();
             if (listView != null) {
                 listView.setAdapter(new NotesListAdapter(
