@@ -1,5 +1,6 @@
 package glen.moran.gie.db;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -47,5 +48,42 @@ public class DbManager extends SQLiteOpenHelper {
                 null,
                 null
         );
+    }
+
+    public void updateNote(long noteId, String title, String shortText) {
+        SQLiteDatabase db = getWritableDatabase();
+        String whereClause = DBContract.COL_NAME_ID + " = ?";
+        String whereArgs[] = {Long.toString(noteId)};
+        ContentValues cv = new ContentValues();
+        cv.put(DBContract.COL_NAME_TITLE, title);
+        cv.put(DBContract.COL_NAME_SHORT_DESC, shortText);
+        db.update(
+                DBContract.TABLE_NAME,
+                cv,
+                whereClause,
+                whereArgs
+        );
+    }
+
+    public long createNote(String title, String shortText) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(DBContract.COL_NAME_TITLE, title);
+        cv.put(DBContract.COL_NAME_SHORT_DESC, shortText);
+        db.insert(
+                DBContract.TABLE_NAME,
+                null,
+                cv
+        );
+
+        Cursor c = db.rawQuery("SELECT last_insert_rowid();", null);
+        if (c != null) {
+            c.moveToFirst();
+            long id = c.getLong(0);
+            c.close();
+            return id;
+        } else {
+            return -1;
+        }
     }
 }

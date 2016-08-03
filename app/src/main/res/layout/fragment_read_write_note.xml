@@ -1,8 +1,62 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="glen.moran.gie.fragment.ReadWriteNoteFragment">
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:textColor="@android:color/white"
+        android:background="@drawable/gradient_background"/>
 
-</FrameLayout>
+    <LinearLayout
+        android:id="@+id/write"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_above="@id/button"
+        android:layout_alignParentTop="true"
+        android:padding="15dp">
+        <EditText
+            android:id="@+id/et_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:hint="@string/title"/>
+        <EditText
+            android:id="@+id/et_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/text"
+            android:gravity="start"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/read"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_above="@id/button"
+        android:layout_alignParentTop="true"
+        android:padding="15dp">
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textIsSelectable="true"
+            android:textStyle="bold"
+            android:textSize="17sp"
+            android:layout_marginBottom="10dp"/>
+        <TextView
+            android:id="@+id/tv_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textIsSelectable="true"
+            android:textSize="14sp"/>
+    </LinearLayout>
+
+</RelativeLayout>

@@ -3,23 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="glen.moran.gie.fragment.ListFragment">
-
-    <TextView
-        android:id="@+id/title"
+    <Button
+        android:id="@+id/button"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/list_title" />
+        android:layout_height="60dp"
+        android:text="create new"
+        android:layout_alignParentBottom="true"
+        android:textColor="@android:color/white"
+        android:background="@drawable/gradient_background"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_below="@id/title"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:text="create new"
-        android:layout_below="@id/list"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentTop="true"
+        android:layout_above="@id/button"/>
 </RelativeLayout>

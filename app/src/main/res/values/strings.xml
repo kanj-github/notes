@@ -3,4 +3,7 @@
     <string name="err">Error Occured</string>
 
     <string name="list_title">Notes</string>
+    <string name="title">Title</string>
+    <string name="text">Text</string>
+    <string name="saving">Saving&#8230;</string>
 </resources>

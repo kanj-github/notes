@@ -42,6 +42,7 @@ public class ReadNoteFileTask extends AsyncTask<Long, Void, String> {
                 scanner.close();
                 return text;
             } catch (FileNotFoundException fnfe) {
+                fnfe.printStackTrace();
                 return null;
             }
         }
