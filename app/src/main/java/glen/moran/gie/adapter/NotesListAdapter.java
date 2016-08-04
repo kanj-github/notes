@@ -1,16 +1,23 @@
 package glen.moran.gie.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import glen.moran.gie.R;
+import glen.moran.gie.db.DbManager;
 import glen.moran.gie.model.NoteListItem;
 
 /**
@@ -47,9 +54,19 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.Note
         return data.size();
     }
 
-    class NoteViewHolder extends RecyclerView.ViewHolder {
+    private void deleteNote(long id) {
+        DbManager.getInstance(mContext).deleteNote(id);
+        File noteFile = new File(mContext.getFilesDir().getPath() + "/notes/" + Long.toString(id));
+        if (noteFile.exists()) {
+            noteFile.delete();
+        }
+    }
+
+    class NoteViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
+            PopupMenu.OnMenuItemClickListener {
         LinearLayout layout;
         TextView title, shortDesc;
+        ImageView threeDots;
         long noteId;
         String noteTitle;
 
@@ -59,6 +76,7 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.Note
             layout = (LinearLayout) v.findViewById(R.id.layout);
             title = (TextView) v.findViewById(R.id.title);
             shortDesc = (TextView) v.findViewById(R.id.short_desc);
+            threeDots = (ImageView) v.findViewById(R.id.three_dots);
 
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -68,6 +86,34 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.Note
                     }
                 }
             });
+
+            threeDots.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (R.id.three_dots == view.getId()) {
+                PopupMenu popup = new PopupMenu(view.getContext(), view);
+                popup.inflate(R.menu.note_menu);
+                popup.setOnMenuItemClickListener(this);
+                popup.show();
+            }
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            int id = item.getItemId();
+            switch (id) {
+                case R.id.delete:
+                    deleteNote(noteId);
+                    data.remove(getLayoutPosition());
+                    notifyDataSetChanged();
+                    break;
+                case R.id.other:
+                    Toast.makeText(mContext, "Other feature not implemented", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+            return true;
         }
     }
 

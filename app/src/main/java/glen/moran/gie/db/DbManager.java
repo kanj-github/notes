@@ -86,4 +86,13 @@ public class DbManager extends SQLiteOpenHelper {
             return -1;
         }
     }
+
+    public void deleteNote(long noteId) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete(
+                DBContract.TABLE_NAME,
+                DBContract.COL_NAME_ID + " = ?",
+                new String[] {Long.toString(noteId)}
+        );
+    }
 }

@@ -9,4 +9,6 @@
     <string name="edit">Edit</string>
     <string name="save">save</string>
     <string name="saved">Saved</string>
+    <string name="delete">Delete</string>
+    <string name="other">Other</string>
 </resources>
